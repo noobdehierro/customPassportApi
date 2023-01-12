@@ -4,7 +4,10 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreAuthorRequest;
 use App\Http\Requests\UpdateAuthorRequest;
+use App\Http\Resources\AuthorResource;
 use App\Models\Author;
+use Carbon\Carbon;
+use Illuminate\Http\Request;
 
 class AuthorController extends Controller
 {
@@ -15,7 +18,7 @@ class AuthorController extends Controller
      */
     public function index()
     {
-        //
+        return Author::all();
     }
 
     /**
@@ -34,9 +37,16 @@ class AuthorController extends Controller
      * @param  \App\Http\Requests\StoreAuthorRequest  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(StoreAuthorRequest $request)
+    public function store(Request $request)
     {
-        //
+
+        // return 123;
+        // dd($request);
+        $author = Author::create([
+            'name' => 'Mark Smith'
+        ]);
+
+        return new AuthorResource($author);
     }
 
     /**
@@ -47,7 +57,7 @@ class AuthorController extends Controller
      */
     public function show(Author $author)
     {
-        //
+        return new AuthorResource($author);
     }
 
     /**
@@ -68,9 +78,14 @@ class AuthorController extends Controller
      * @param  \App\Models\Author  $author
      * @return \Illuminate\Http\Response
      */
-    public function update(UpdateAuthorRequest $request, Author $author)
+    public function update(Request $request, Author $author)
     {
-        //
+        $author->update([
+            'name' => 'Arron Smith',
+            'updated_at' => Carbon::now()
+        ]);
+
+        return new AuthorResource($author);
     }
 
     /**
@@ -81,6 +96,10 @@ class AuthorController extends Controller
      */
     public function destroy(Author $author)
     {
-        //
+        $author->delete();
+
+        // return response(null, 204);
+
+        return new AuthorResource($author);
     }
 }

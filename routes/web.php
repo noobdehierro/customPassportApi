@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\AuthorController;
+use GuzzleHttp\Psr7\Request;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -16,3 +18,8 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('welcome');
 });
+
+// Route::middleware('auth:api')->prefix('v1')->group(function () {
+
+//     Route::get('/authors/{author}', [AuthorController::class, 'show']);
+// });
